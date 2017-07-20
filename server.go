@@ -1,20 +1,27 @@
 package main
 
 import (
+	"./Config"
 	"./Database"
 	"./Router"
 	"fmt"
 	"net/http"
-	"os"
 )
 
 func main() {
-	port := os.Getenv("PORT")
+	// Load Config file
+	config := Config.ParseConfigFile()
+
+	// Specify port
+	port := config.Port
 	if port == "" {
-		port = "8080"
+		panic("Please Specify port")
 	}
-	Database.Connect()
-	// Database.ParseConfigFile()
+
+	// Connect Database
+	Database.Connect(config)
+
+	// Start server
 	fmt.Println("Starting server on :" + port)
 	http.ListenAndServe(":"+port, Router.Routes())
 }
