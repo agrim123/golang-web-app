@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./Database"
 	"./Router"
 	"fmt"
 	"net/http"
@@ -12,6 +13,8 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+	Database.Connect()
+	// Database.ParseConfigFile()
 	fmt.Println("Starting server on :" + port)
 	http.ListenAndServe(":"+port, Router.Routes())
 }

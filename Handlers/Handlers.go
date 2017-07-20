@@ -1,6 +1,7 @@
 package Handlers
 
 import (
+	"../Database"
 	"../Models"
 	"encoding/json"
 	"fmt"
@@ -20,7 +21,7 @@ func NameHandler(rw http.ResponseWriter, r *http.Request, p httprouter.Params) {
 }
 
 func BookJSONHandler(rw http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	book := Models.Book{"Building Web Apps with Go", "Jeremy Saenz"}
+	book := Models.Book{"Building Web Apps with Go", "Some Author"}
 
 	js, err := json.Marshal(book)
 	if err != nil {
@@ -33,7 +34,7 @@ func BookJSONHandler(rw http.ResponseWriter, r *http.Request, p httprouter.Param
 }
 
 func BookHTMLHandler(rw http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	book := Models.Book{"Building Web Apps with Go", "Jeremy Saenz"}
+	book := Models.Book{"Building Web Apps with Go", "Some Author"}
 
 	fp := path.Join("templates", "books.html")
 	tmpl, err := template.ParseFiles(fp)
@@ -48,8 +49,6 @@ func BookHTMLHandler(rw http.ResponseWriter, r *http.Request, p httprouter.Param
 }
 
 func UsersHandler(rw http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	emails := []string{"email1", "email2"}
-	user := Models.User{1, "User 1", emails}
-
-	fmt.Fprintln(rw, user.String())
+	user := Models.User{Name: "Agrim"}
+	Database.Insert(user)
 }
